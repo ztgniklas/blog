@@ -1,13 +1,11 @@
-import Head from 'next/head'
 import React from "react";
 import PageLayout from '../src/PageLayout';
-import HomePage from "../src/HomePage";
 
-export default function Home() {
+export default function Posts() {
 
     return (
         <PageLayout>
-            <HomePage />
+            posts page
         </PageLayout>
     )
 }
