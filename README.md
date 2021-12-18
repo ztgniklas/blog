@@ -1,1 +1,2 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+git remote set-url origin root@taigezhang.com:/root/next-blog.git
+git push origin master
