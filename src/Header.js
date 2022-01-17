@@ -17,7 +17,7 @@ import {
     Link,
     Snackbar,
 } from "@material-ui/core";
-import { Link as RouterLink } from "next/link";
+import RouterLink from "next/link";
 
 const useStyles = makeStyles((theme) => ({
     firstRow: {
@@ -51,7 +51,13 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         padding: theme.spacing(0, 5),
+        textDecoration: "none",
+        color: "inherit"
     },
+    titleLink: {
+        textDecoration: "none",
+        color: "inherit"
+    }
 }));
 
 export default function Header(props) {
@@ -107,7 +113,7 @@ export default function Header(props) {
                         underline="none"
                         color="inherit"
                     >
-                        {title}
+                        <a className={classes.titleLink}>{title}</a>
                     </Link>
                 </Typography>
 
@@ -142,15 +148,12 @@ export default function Header(props) {
                 style={{ display: isSecondRowHidden ? "none" : "flex" }}
             >
                 {categories.map((cat) => (
-                    <Link
+                    <RouterLink
                         href={`/${cat.name.toLowerCase()}`}
-                        className={classes.link}
                         key={cat.name}
-                        component={RouterLink}
-                        color="inherit"
                     >
-                        {cat.name}
-                    </Link>
+                        <a className={classes.link}>{cat.name}</a>
+                    </RouterLink>
                 ))}
             </Toolbar>
         </React.Fragment>
