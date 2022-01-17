@@ -9,7 +9,7 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core";
-import {Link as RouterLink} from 'next/link';
+import RouterLink from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
     desc: {
@@ -22,7 +22,7 @@ export default function FeaturedCard(props) {
     const { data } = props;
     const { image, title, date, desc } = data;
     return (
-        <CardActionArea component={RouterLink}>
+        <CardActionArea>
             <Grid container component={Card}>
                 <Grid item component={CardContent} xs={8}>
                     <Typography variant="h5">{title}</Typography>

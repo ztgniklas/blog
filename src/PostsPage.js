@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Button, Grid, Link, makeStyles, Typography} from "@material-ui/core";
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
-import {Link as RouterLink} from 'next/link';
+import RouterLink from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
     itemRoot: {
