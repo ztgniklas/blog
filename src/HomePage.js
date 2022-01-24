@@ -8,23 +8,6 @@ import SideBar from "./SideBar";
 
 const randomImgUrl = `https://picsum.photos/seed/${Math.floor(Math.random() * 100 + 1)}/200/300`;
 
-const heroList = [{src: randomImgUrl}, {src: randomImgUrl}];
-
-const featuredList = [
-    {
-        image: randomImgUrl,
-        title: "标题",
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus facilis corporis ut sapiente quasi ipsa eveniet vero quo eum quisquam, optio, voluptate consectetur nobis quis numquam qui totam pariatur ratione.",
-        date: "2020-06-01",
-    },
-    {
-        image: randomImgUrl,
-        title: "标题",
-        desc: "lorem ddkfdajsj",
-        date: "2020-06-01"
-    },
-];
-
 const useStyles = makeStyles((theme) => ({
     grid: {},
     root: {
@@ -32,9 +15,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function HomePage() {
+export default function HomePage(props) {
     const classes = useStyles();
+    const {postsData} = props;
     const [md, setMd] = useState("");
+    const [heroList, setHeroList] = useState([]);
+    const [featuredList, setFeaturedList] = useState([]);
+
+    useEffect(async () => {
+        let resp = await fetch('/blog/hero.json', {
+            mode: "no-cors"
+        });
+        let data = await resp.json();
+        setHeroList(data);
+
+        resp = await fetch('/blog/featured.json');
+        data = await resp.json();
+        setFeaturedList(data);
+    }, []);
 
     return (
 
@@ -46,12 +44,13 @@ export default function HomePage() {
                     ))}
                 </Carousel>
             </Grid>
-            <Grid item xs={12} md={6}>
-                <FeaturedCard data={featuredList[0]}/>
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <FeaturedCard data={featuredList[1]}/>
-            </Grid>
+            {featuredList.length === 2 ? (<><Grid item xs={12} md={6}>
+                    <FeaturedCard data={featuredList[0]}/>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <FeaturedCard data={featuredList[1]}/>
+                </Grid></>) : null}
+
             <Grid item xs={12} md={9}>
                 <Typography variant="h4">Recent Articles</Typography>
                 <Divider/>

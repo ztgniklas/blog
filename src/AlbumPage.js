@@ -16,7 +16,6 @@ export default function AlbumPage(props) {
     useEffect(async () => {
         let resp = await fetch('albums.json');
         let data = await resp.json();
-        console.log(data)
         setAlbums(data);
     }, []);
 
@@ -45,7 +44,7 @@ function ImgList(props) {
     return (
         <React.Fragment>
             <Grid item xs={12}>
-                <Box onClick={handleClickTitle} className={classes.titleContainer} bgcolor="info.main"
+                <Box onClick={handleClickTitle} className={classes.titleContainer} bgcolor="black"
                      color="info.contrastText" pl={2} pr={2} pt={1} pb={1} display="flex" flexDirection="row"
                      justifyContent="space-between" alignItems="center">
                     <Typography variant="h5">{title}</Typography>

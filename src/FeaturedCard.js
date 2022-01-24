@@ -15,12 +15,17 @@ const useStyles = makeStyles((theme) => ({
     desc: {
         height: "20vh",
     },
+    more: {
+        textDecoration: "none",
+        color: "#123456",
+        fontSize: "medium"
+    },
 }));
 
 export default function FeaturedCard(props) {
     const classes = useStyles();
-    const { data } = props;
-    const { image, title, date, desc } = data;
+    const {data} = props;
+    const {image, title, date, desc, link} = data;
     return (
         <CardActionArea>
             <Grid container component={Card}>
@@ -36,9 +41,12 @@ export default function FeaturedCard(props) {
                     >
                         {desc}
                     </Typography>
-                    <Typography variant="subtitle1" color="primary">
-                        了解更多
-                    </Typography>
+
+                    <RouterLink
+                        href={link}
+                    >
+                        <a className={classes.more}>了解更多</a>
+                    </RouterLink>
                 </Grid>
                 <Grid
                     item
