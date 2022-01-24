@@ -8,5 +8,4 @@ module.exports = {
             },
         ]
     },
-    basePath: '/blog',
 }

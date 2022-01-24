@@ -23,13 +23,13 @@ export default function HomePage(props) {
     const [featuredList, setFeaturedList] = useState([]);
 
     useEffect(async () => {
-        let resp = await fetch('/blog/hero.json', {
+        let resp = await fetch('/hero.json', {
             mode: "no-cors"
         });
         let data = await resp.json();
         setHeroList(data);
 
-        resp = await fetch('/blog/featured.json');
+        resp = await fetch('/featured.json');
         data = await resp.json();
         setFeaturedList(data);
     }, []);
