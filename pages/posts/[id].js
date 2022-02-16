@@ -6,7 +6,7 @@ import PageLayout from '../../src/PageLayout';
 const useStyles = makeStyles((theme) => ({
     post: {
         '& img': {
-            width: '70%'
+            width: '50%'
         }
     },
 
@@ -17,10 +17,10 @@ export default function Post({ postData }) {
     return (
         <PageLayout>
             <div>
-                <Typography variant="h3">
+                <Typography variant="h4">
                     {postData.title}
                 </Typography>
-                <Typography variant="caption">
+                <Typography variant="h6">
                     {postData.date}
                 </Typography>
                 <Box

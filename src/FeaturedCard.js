@@ -12,14 +12,12 @@ import {
 import RouterLink from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
-    desc: {
-        height: "20vh",
-    },
-    more: {
+    moreLink: {
         textDecoration: "none",
         color: "#123456",
         fontSize: "medium"
     },
+
 }));
 
 export default function FeaturedCard(props) {
@@ -44,8 +42,9 @@ export default function FeaturedCard(props) {
 
                     <RouterLink
                         href={link}
+                        className={classes.more}
                     >
-                        <a className={classes.more}>了解更多</a>
+                        <a className={classes.moreLink}>了解更多</a>
                     </RouterLink>
                 </Grid>
                 <Grid
