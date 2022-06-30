@@ -1,23 +1,39 @@
-import {Box, Grid, Paper, makeStyles, Typography} from "@material-ui/core";
+import {Box, Grid, Paper, makeStyles, Typography, Backdrop, Dialog} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
+import {Image} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     titleContainer: {
         "&:hover": {
             cursor: "pointer"
         }
+    },
+    picDisplay: {
+        color: "black"
     }
 }));
 
 export default function AlbumPage(props) {
     const [albums, setAlbums] = useState([]);
+    const [openPic, setOpenPic] = useState(false);
+    const [imgLink, setImgLink] = useState("");
+    const classes = useStyles();
 
     useEffect(async () => {
         let resp = await fetch('albums.json');
         let data = await resp.json();
         setAlbums(data);
     }, []);
+
+    function handleClickPreview(link) {
+        setImgLink(link)
+        setOpenPic(true);
+    }
+
+    function handleClickFullImgPage() {
+        setOpenPic(false)
+    }
 
     return (
         <Grid container spacing={2}>
@@ -26,14 +42,18 @@ export default function AlbumPage(props) {
                     title={album.name}
                     imgs={album.images}
                     key={idx}
+                    onClick={handleClickPreview}
                 />
             ))}
+            <Dialog fullScreen open={openPic} className={classes.picDisplay}>
+                <FullImg img={imgLink} handleClickFullImgPage={handleClickFullImgPage} />
+            </Dialog>
         </Grid>
     );
 }
 
 function ImgList(props) {
-    const {title, imgs} = props;
+    const {title, imgs, onClick} = props;
     const classes = useStyles();
     const [showImgs, setShowImgs] = useState(false);
 
@@ -52,7 +72,7 @@ function ImgList(props) {
                 </Box>
             </Grid>
             {imgs.map((img, idx) => (
-                <Grid item xs={6} md={3} key={idx} style={{display: showImgs ? "block" : "none"}}>
+                <Grid item xs={6} md={3} key={idx} style={{display: showImgs ? "block" : "none"}} onClick={() => onClick(img.small)}>
                     <ImageItem img={img.small}/>
                 </Grid>
             ))}
@@ -78,4 +98,26 @@ function ImageItem(props) {
             />
         </React.Fragment>
     );
+}
+
+function FullImg(props) {
+    const {img, handleClickFullImgPage} = props
+    return (
+        <Box style={{height: "100vh", width:"100vw"}}
+             onClick={handleClickFullImgPage}
+             display="flex"
+             justifyContent={"center"}
+             alignItems={"center"}>
+            <img
+                style={{
+                    maxHeight: "95%",
+                    maxWidth: "95%",
+                    height: "auto",
+                    width: "auto",
+                    objectFit: "cover",
+                }}
+                src={img}
+            />
+        </Box>
+    )
 }
