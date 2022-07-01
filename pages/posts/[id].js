@@ -6,7 +6,10 @@ import PageLayout from '../../src/PageLayout';
 const useStyles = makeStyles((theme) => ({
     post: {
         '& img': {
-            width: '50%'
+            width: '70%'
+        },
+        '& p': {
+            fontSize: '20px'
         }
     },
 
