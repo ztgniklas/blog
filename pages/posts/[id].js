@@ -2,6 +2,7 @@ import { getAllPostIds, getPostData } from "../../lib/PostUtils";
 import React from "react";
 import {Box, makeStyles, Typography} from "@material-ui/core";
 import PageLayout from '../../src/PageLayout';
+import {fetchAPI} from "../../lib/api";
 
 const useStyles = makeStyles((theme) => ({
     post: {
@@ -28,7 +29,7 @@ export default function Post({ postData }) {
                 </Typography>
                 <Box
                     dangerouslySetInnerHTML={{
-                        __html: postData.contentHtml,
+                        __html: postData.content,
                     }}
                     mb={2}
                     mt={1}
@@ -41,7 +42,7 @@ export default function Post({ postData }) {
 }
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+    const paths = await getAllPostIds();
     return {
         paths,
         fallback: false,

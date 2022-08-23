@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         height: "50vh",
-        width: "100vw"
+        width: "100%"
     },
 }));
 

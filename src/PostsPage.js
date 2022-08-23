@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Grid, Link, makeStyles, Typography} from "@material-ui/core";
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import RouterLink from 'next/link';
+import {fetchAPI} from "../lib/api";
+import {getStrapiMedia} from "../lib/media";
 
 const useStyles = makeStyles((theme) => ({
     itemRoot: {
@@ -17,11 +19,16 @@ const useStyles = makeStyles((theme) => ({
 
 function PostsPage(props) {
     const {postsData} = props;
+    const [posts, setPosts] = useState([]);
+    useEffect(async () => {
+        let data = await fetchAPI('/articles', {populate: 'cover', sort: 'date:desc'});
+        setPosts(data.data);
+    }, []);
     return (
         <Grid container spacing={3}>
-            {postsData.map((post, idx) => (
+            {posts.map((post, idx) => (
                 <Grid item xs={12} md={6} key={idx}>
-                    <BriefCard postData={post} />
+                    <BriefCard post={post} />
                 </Grid>
             ))}
         </Grid>
@@ -29,7 +36,8 @@ function PostsPage(props) {
 }
 
 function BriefCard(props) {
-    const { postData } = props;
+    const { post } = props;
+    const postData = post.attributes;
     const classes = useStyles();
     return (
         <Box
@@ -58,12 +66,12 @@ function BriefCard(props) {
 
             <Box
                 dangerouslySetInnerHTML={{
-                    __html: postData.excerptHtml,
+                    __html: postData.excerpt,
                 }}
                 mb={2}
                 mt={1}
             />
-            <Link component={RouterLink} href={`/posts/${postData.id}`} underline="none" color="inherit">
+            <Link component={RouterLink} href={`/posts/${post.id}`} underline="none" color="inherit">
                 <Button
                     variant="outlined"
                     size="small"

@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import RouterLink from 'next/link';
+import {getStrapiMedia} from "../lib/media";
 
 const useStyles = makeStyles((theme) => ({
     moreLink: {
@@ -22,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FeaturedCard(props) {
     const classes = useStyles();
-    const {data} = props;
-    const {image, title, date, desc, link} = data;
+    const {attributes:data, id} = props.data;
+    console.log(props)
+    const {cover, title, date, excerpt} = data;
+
     return (
         <CardActionArea>
             <Grid container component={Card}>
@@ -37,11 +40,11 @@ export default function FeaturedCard(props) {
                         paragraph
                         className={classes.desc}
                     >
-                        {desc}
+                        {excerpt + '...'}
                     </Typography>
 
                     <RouterLink
-                        href={link}
+                        href={`/posts/${id}`}
                         className={classes.more}
                     >
                         <a className={classes.moreLink}>了解更多</a>
@@ -51,7 +54,7 @@ export default function FeaturedCard(props) {
                     item
                     component={CardMedia}
                     xs={4}
-                    image={image}
+                    image={getStrapiMedia(cover)}
                     title={title}
                 />
             </Grid>

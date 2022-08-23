@@ -2,6 +2,8 @@ import {Box, Grid, Paper, makeStyles, Typography, Backdrop, Dialog} from "@mater
 import React, {useEffect, useState} from "react";
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import {Image} from "@material-ui/icons";
+import {fetchAPI} from "../lib/api";
+import {getStrapiMedia, getStrapiMediaByUrl} from "../lib/media";
 
 const useStyles = makeStyles((theme) => ({
     titleContainer: {
@@ -21,9 +23,13 @@ export default function AlbumPage(props) {
     const classes = useStyles();
 
     useEffect(async () => {
-        let resp = await fetch('albums.json');
-        let data = await resp.json();
-        setAlbums(data);
+        //let resp = await fetch('albums.json');
+        let data = await fetchAPI('/album-categories', {populate: '*'})
+
+        //let data = await resp.json();
+        setAlbums(data.data.map(e => {
+            return {title: e.attributes.text, imgs: e.attributes.imgs.data}
+        }));
     }, []);
 
     function handleClickPreview(link) {
@@ -39,8 +45,8 @@ export default function AlbumPage(props) {
         <Grid container spacing={2}>
             {albums.map((album, idx) => (
                 <ImgList
-                    title={album.name}
-                    imgs={album.images}
+                    title={album.title}
+                    imgs={album.imgs}
                     key={idx}
                     onClick={handleClickPreview}
                 />
@@ -72,8 +78,8 @@ function ImgList(props) {
                 </Box>
             </Grid>
             {imgs.map((img, idx) => (
-                <Grid item xs={6} md={3} key={idx} style={{display: showImgs ? "block" : "none"}} onClick={() => onClick(img.small)}>
-                    <ImageItem img={img.small}/>
+                <Grid item xs={6} md={3} key={idx} style={{display: showImgs ? "block" : "none", cursor: "pointer"}} onClick={() => onClick(getStrapiMediaByUrl(img.attributes.url))}>
+                    <ImageItem img={getStrapiMediaByUrl(img.attributes.formats.small.url)}/>
                 </Grid>
             ))}
         </React.Fragment>
